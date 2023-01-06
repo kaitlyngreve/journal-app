@@ -37,7 +37,7 @@ code {
   font-family: 'DM Serif Display', serif;
 }
 
-.entry-button {
+.button {
   border: none;
   background-color: transparent;
   font-family: 'Montserrat', sans-serif;
@@ -46,21 +46,11 @@ code {
   margin-top: 12px;
 }
 
-.entry-button:hover {
+.button:hover {
   cursor: pointer;
   text-decoration: 1px line-through #1e282c;
 }
 
-.top-section-container {
-  background-color: #F5E5FC;
-  border-radius: 14rem 14rem .2rem .2rem;
-  margin-top: 2rem;
-  padding: 3rem 2.6rem 1.5rem 3rem;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: 1px 10px 15px -3px hsl(24, 67%, 12%);
-  max-width: 600px;
-}
 
 textarea {
   margin-top: 10px;
@@ -89,4 +79,36 @@ input::placeholder {
   display: flex;
   flex-direction: column;
   margin: auto auto;
+}
+
+.top-section-container {
+  background-color: #F5E5FC;
+  border-radius: 14rem 14rem .2rem .2rem;
+  margin-top: 2rem;
+  padding: 3rem 2.6rem 1.5rem 3rem;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 1px 10px 15px -3px hsl(24, 67%, 12%);
+  max-width: 600px;
+}
+
+.entry-card {
+  max-width: 600px;
+  background-color: rgb(178, 139, 132, .7);
+  border-radius: .2rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 2.6rem 1rem 3rem;
+  box-shadow: 1px 10px 15px -3px hsl(24, 67%, 12%);
+  text-align: left;
+  color: #1e282c;
+}
+
+.entry-title {
+  font-family: 'DM Serif Display', serif;
+  letter-spacing: 1px;
+}
+
+.entry-date {
+  font-family: 'DM Serif Display', serif;
 }

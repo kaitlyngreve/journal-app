@@ -14,24 +14,26 @@ function App() {
   const entriesRef = collection(db, "entries");
 
 
-  const addEntry = (e) => {
+  const addEntry = async (e) => {
     e.preventDefault();
 
-    addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date });
+    let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date });
 
-    setEntries([...entries, { postTitle: newTitle, postContent: newContent, date: date }]);
+    setEntries([...entries, { postTitle: newTitle, postContent: newContent, date: date, id: newEntryRef.id }]);
 
     setNewTitle('');
     setNewContent('');
   }
 
   const deleteEntry = (id) => {
-    const entryDoc = doc(db, "entries", id);
-    // showing deleted on frontend without page reload
-    const updatedEntries = [...entries].filter((entry) => entry.id !== id);
 
-    setEntries(updatedEntries);
+    // these two lines of code are for firebase firestore - deleting from our database
+    const entryDoc = doc(db, "entries", id);
     deleteDoc(entryDoc);
+
+    // these lines of code are for updating the frontend without a huge window reload - which is ugly Kaitie, don't do it. 
+    const updatedEntries = [...entries].filter((entry) => entry.id !== id);
+    setEntries(updatedEntries);
 
   }
 
@@ -63,20 +65,22 @@ function App() {
               value={newContent}
               onChange={(e) => { setNewContent(e.target.value) }} />
           </div>
-          <button className='entry-button' type='submit'>Add Entry</button>
+          <button className='button' type='submit'>Add Entry</button>
         </form>
       </div>
 
-      {
-        entries.map((entry) => {
-          return <div key={entry.id}>
-            <h1>Title: {entry.postTitle}</h1>
-            <h4>Date of Entry: {entry.date}</h4>
-            <p>Entry: {entry.postContent}</p>
-            <button onClick={() => { deleteEntry(entry.id) }}>Delete Entry</button>
-          </div>
-        })
-      }
+      <div>
+        {
+          entries.map((entry) => {
+            return <div className='entry-card' key={entry.id}>
+              <h1 className='entry-title'>Title: {entry.postTitle}</h1>
+              <h4 className='entry-date'>Date of Entry: {entry.date}</h4>
+              <p>Entry: {entry.postContent}</p>
+              <button className='button' onClick={() => { deleteEntry(entry.id) }}>Delete Entry</button>
+            </div>
+          })
+        }
+      </div>
     </div >
   );
 }
