@@ -10,12 +10,12 @@ function App() {
   const [newContent, setNewContent] = useState('');
   const [user] = useAuthState(auth);
 
+  console.log(user);
+
   const current = new Date();
   const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
 
   const entriesRef = user ? collection(db, user.uid) : <Login />;
-
-  // console.log(user.uid);
 
   const addEntry = async (e) => {
     e.preventDefault();
@@ -58,40 +58,42 @@ function App() {
 
   return (
     <div className="App">
-      {user ? (<div className="whole-app-container">
-        <div>
-          {
-            entries.map((entry) => {
-              return <div className='entry-card' key={entry.id}>
-                <h1 className='entry-title'>Title: {entry.postTitle}</h1>
-                <h4 className='entry-date'>Date of Entry: {entry.date}</h4>
-                <p>Entry: {entry.postContent}</p>
-                <button className='button' onClick={() => { deleteEntry(entry.id) }}>Delete Entry</button>
-              </div>
-            })
-          }
-        </div>
-        <div className='top-section-container'>
-          <div className="header-container">
-            <h1 className='header'>My Journal</h1>
-            <h3 className='currentDate'>{date}</h3>
+      {user ? (
+        <div className="whole-app-container">
+          <div className="side-entries-container">
+            <h3 className="side-header">{user.displayName}'s Entries👇</h3>
+            {
+              entries.map((entry) => {
+                return <div className='side-entry' key={entry.id}>
+                  <h4 className='side-entry-title'>Title: {entry.postTitle}</h4>
+                  <h4 className='side-entry-date'>Date of Entry: {entry.date}</h4>
+                  {/* <p>Entry: {entry.postContent}</p> */}
+                  {/* <button className='button' onClick={() => { deleteEntry(entry.id) }}>Delete Entry</button> */}
+                </div>
+              })
+            }
           </div>
-          <form onSubmit={addEntry}>
-            <div className='entry-container'>
-              <input
-                placeholder='Entry Title...'
-                value={newTitle}
-                onChange={(e) => { setNewTitle(e.target.value) }} />
-              <textarea
-                placeholder='Entry...'
-                value={newContent}
-                onChange={(e) => { setNewContent(e.target.value) }} />
+          <div className='new-entry-section-container'>
+            <div className="header-container">
+              <h1 className='header'>👋 Hello, {user.displayName}.</h1>
+              <h3 className='currentDate'>🗓 Todays date is {date}</h3>
             </div>
-            <button className='button' type='submit'>Add Entry</button>
-          </form>
-          <button onClick={signOut}>Sign Out</button>
-        </div>
-      </div>) : (
+            <form onSubmit={addEntry}>
+              <div className='new-entry-container'>
+                <input
+                  placeholder='Entry Title...'
+                  value={newTitle}
+                  onChange={(e) => { setNewTitle(e.target.value) }} />
+                <textarea
+                  placeholder='Entry... ✏️'
+                  value={newContent}
+                  onChange={(e) => { setNewContent(e.target.value) }} />
+              </div>
+              <button className='button' type='submit'>➕ Add Entry</button>
+            </form>
+          </div>
+          <button className="button sign-out-button" onClick={signOut}>Sign Out</button>
+        </div>) : (
         <Login />
       )}
     </div >
