@@ -10,12 +10,18 @@ function App() {
   const [newContent, setNewContent] = useState('');
   const [user] = useAuthState(auth);
 
-  console.log(user);
+  const [isClicked, setIsClicked] = useState(false);
+
+  const hasBeenClicked = () => {
+    setIsClicked(isClicked => !isClicked);
+  }
 
   const current = new Date();
   const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
 
   const entriesRef = user ? collection(db, user.uid) : <Login />;
+
+  console.log(user);
 
   const addEntry = async (e) => {
     e.preventDefault();
@@ -26,6 +32,12 @@ function App() {
 
     setNewTitle('');
     setNewContent('');
+  }
+
+  // Helper Function for auto-height Textarea
+  function text_area_auto_grow(element) {
+    element.style.height = "5px";
+    element.style.height = (element.scrollHeight) + "px";
   }
 
   const deleteEntry = (id) => {
@@ -61,7 +73,9 @@ function App() {
       {user ? (
         <div className="whole-app-container">
           <div className="side-entries-container">
-            <h3 className="side-header">{user.displayName}'s Entries👇</h3>
+            <div className="side-header-top-content">
+              <h3 className="side-header">{user.displayName}'s Entries👇</h3>
+            </div>
             {
               entries.map((entry) => {
                 return <div className='side-entry' key={entry.id}>
@@ -72,6 +86,9 @@ function App() {
                 </div>
               })
             }
+            <div className="side-header-bottom-content">
+              <button className="button sign-out-button" onClick={signOut}>Sign Out</button>
+            </div>
           </div>
           <div className='new-entry-section-container'>
             <div className="header-container">
@@ -87,12 +104,14 @@ function App() {
                 <textarea
                   placeholder='Entry... ✏️'
                   value={newContent}
-                  onChange={(e) => { setNewContent(e.target.value) }} />
+                  onChange={(e) => {
+                    setNewContent(e.target.value);
+                    text_area_auto_grow(e.target);
+                  }} />
               </div>
               <button className='button' type='submit'>➕ Add Entry</button>
             </form>
           </div>
-          <button className="button sign-out-button" onClick={signOut}>Sign Out</button>
         </div>) : (
         <Login />
       )}

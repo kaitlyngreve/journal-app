@@ -6,10 +6,11 @@
 
 body {
   margin: 0;
-  font-family: Helvetica;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: white;
+  color: #222222;
+  font-family: Helvetica, sans-serif;
 }
 
 .whole-app-container {
@@ -20,7 +21,6 @@ body {
 
 .new-entry-section-container {
   padding: 3rem 2.6rem 1.5rem 3rem;
-  margin: 25px;
   max-width: 100%;
   width: 100%;
 }
@@ -31,20 +31,14 @@ body {
 }
 
 .header {
-  font-family: Helvetica;
   font-size: 45px;
-  letter-spacing: 2px;
-  color: black;
   margin-bottom: 0;
 }
 
 .currentDate {
-  letter-spacing: 1px;
   font-size: 25px;
   padding-top: 0;
   padding-bottom: 20px;
-  color: black;
-  font-family: Helvetica;
   border-bottom: 1px solid #f2f2f2;
 }
 
@@ -56,17 +50,20 @@ body {
 textarea {
   margin-top: 10px;
   resize: none;
-  min-height: min(50vh, 700px);
+  overflow: hidden;
+  min-height: 50px;
+  line-height: 1.7em;
+  font-family: Helvetica, sans-serif;
+  margin-bottom: 2em;
+  display: block;
 }
 
 textarea,
 input {
-  font-size: 15px;
+  font-size: 18px;
   outline: none;
   border: none;
   padding: 3px;
-  font-family: Helvetica;
-  color: black;
 }
 
 input,
@@ -75,56 +72,60 @@ input::placeholder {
 }
 
 textarea::placeholder,
-input::placeholder {
-  color: black;
-  font-family: Helvetica;
-}
+input::placeholder {}
 
 .button {
-  font-size: 10;
-  padding: 5px;
-  text-transform: uppercase;
+  font-size: 14px;
+  padding: 10px 15px;
   border: none;
-  background-color: transparent;
-  font-family: Helvetica;
-  color: black;
+  background-color: rgb(0, 0, 0, .1);
 }
 
 .button:hover {
   cursor: pointer;
-  background-color: #f2f2f2;
-  border-radius: 2px;
-  border-bottom: 1px solid #c6c6c6;
-}
-
-.sign-out-button {
-  height: 30px;
-  width: 100px;
-  margin: 5px;
+  background-color: rgb(0, 0, 0, .2);
 }
 
 .side-header {
-  font-family: Helvetica;
-  color: black;
-  font-size: 15px;
+  font-size: 18px;
 }
 
+.side-header-bottom-content {
+  margin-top: 25px;
+}
+
+
 .side-entries-container {
-  padding: 15px;
+  width: max(25%, 400px);
   height: 100vh;
-  width: 20%;
-  max-width: 20%;
-  background-color: rgb(242, 242, 242, 0.5);
+  background-color: #f8f8f8;
   border-right: 1px solid #f2f2f2;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  padding-top: 25px;
+}
+
+.side-entries-container>* {
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .side-entry {
   border-bottom: .5px solid #c6c6c6;
   width: 100%;
-  padding: 5px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .side-entry:hover {
   cursor: pointer;
-  background-color: rgb(242, 242, 242, 1);
+  background-color: rgb(0, 0, 0, 0.1);
+}
+
+.side-entry-date,
+.side-entry-title {
+  font-size: 16px;
+  line-height: 1.5em;
+  margin: 0;
 }
