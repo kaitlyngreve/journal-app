@@ -21,7 +21,7 @@ function App() {
 
   const entriesRef = user ? collection(db, user.uid) : <Login />;
 
-  console.log(user);
+  console.log(entries)
 
   const addEntry = async (e) => {
     e.preventDefault();
@@ -101,13 +101,23 @@ function App() {
                   placeholder='Entry Title...'
                   value={newTitle}
                   onChange={(e) => { setNewTitle(e.target.value) }} />
-                <textarea
+                {/*conditonal rendering for textarea placeholder text*/}
+                {entries.length === 0 ? (
+                  <textarea
+                    placeholder='Hello, welcome to Journal-It'
+                    value={newContent}
+                    onChange={(e) => {
+                      setNewContent(e.target.value);
+                      text_area_auto_grow(e.target);
+                    }} />
+                ) : (<textarea
                   placeholder='Entry... ✏️'
                   value={newContent}
                   onChange={(e) => {
                     setNewContent(e.target.value);
                     text_area_auto_grow(e.target);
-                  }} />
+                  }} />)}
+
               </div>
               <button className='button' type='submit'>➕ Add Entry</button>
             </form>

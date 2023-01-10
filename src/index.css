@@ -13,6 +13,26 @@ body {
   font-family: Helvetica, sans-serif;
 }
 
+.login-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+  max-width: 50%;
+  padding: 45px;
+  text-align: center;
+  background-color: #222222;
+  color: #f2f2f2;
+}
+
+.sign-in-button {
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #f2f2f2;
+}
+
 .whole-app-container {
   display: flex;
   flex-direction: row;
@@ -70,9 +90,6 @@ input,
 input::placeholder {
   font-size: 18px;
 }
-
-textarea::placeholder,
-input::placeholder {}
 
 .button {
   font-size: 14px;
