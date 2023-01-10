@@ -10,11 +10,11 @@ function App() {
   const [newContent, setNewContent] = useState('');
   const [user] = useAuthState(auth);
 
-  const [isClicked, setIsClicked] = useState(false);
+  // const [isClicked, setIsClicked] = useState(false);
 
-  const hasBeenClicked = () => {
-    setIsClicked(isClicked => !isClicked);
-  }
+  // const hasBeenClicked = () => {
+  //   setIsClicked(isClicked => !isClicked);
+  // }
 
   const current = new Date();
   const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
@@ -62,7 +62,7 @@ function App() {
     }
 
     getEntries();
-  }, []);
+  }, [user]);
 
   const signOut = () => {
     auth.signOut();
@@ -82,7 +82,7 @@ function App() {
                   <h4 className='side-entry-title'>Title: {entry.postTitle}</h4>
                   <h4 className='side-entry-date'>Date of Entry: {entry.date}</h4>
                   {/* <p>Entry: {entry.postContent}</p> */}
-                  {/* <button className='button' onClick={() => { deleteEntry(entry.id) }}>Delete Entry</button> */}
+                  <button className='button' onClick={() => { deleteEntry(entry.id) }}>Delete Entry</button>
                 </div>
               })
             }
