@@ -8,27 +8,28 @@ function App() {
   const [entries, setEntries] = useState([]);
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
+  const [errorMessage, setErrorMessage] = useState({ error: false, msg: "" });
   const [user] = useAuthState(auth);
-
-  // const [isClicked, setIsClicked] = useState(false);
-
-  // const hasBeenClicked = () => {
-  //   setIsClicked(isClicked => !isClicked);
-  // }
 
   const current = new Date();
   const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
 
   const entriesRef = user ? collection(db, user.uid) : <Login />;
 
-  console.log(entries)
+  const handleResetErrors = () => {
+    setErrorMessage(null);
+  }
 
   const addEntry = async (e) => {
     e.preventDefault();
 
-    let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date });
-
-    setEntries([...entries, { postTitle: newTitle, postContent: newContent, date: date, id: newEntryRef.id }]);
+    if (newTitle === "" || newContent === "") {
+      setErrorMessage({ error: true, msg: "silly goose" });
+      console.log(errorMessage);
+    } else {
+      let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date });
+      setEntries([...entries, { postTitle: newTitle, postContent: newContent, date: date, id: newEntryRef.id }]);
+    }
 
     setNewTitle('');
     setNewContent('');
@@ -95,6 +96,7 @@ function App() {
               <h1 className='header'>👋 Hello, {user.displayName}.</h1>
               <h3 className='currentDate'>🗓 Todays date is {date}</h3>
             </div>
+            {errorMessage?.msg && (<div>{errorMessage.msg}</div>)}
             <form onSubmit={addEntry}>
               <div className='new-entry-container'>
                 <input
@@ -104,7 +106,8 @@ function App() {
                 {/*conditonal rendering for textarea placeholder text*/}
                 {entries.length === 0 ? (
                   <textarea
-                    placeholder='Hello, welcome to Journal-It'
+                    placeholder=
+                    'Hello, welcome to Journal-It ✏️ To start your first journal entry, type here! Once you have finished your entry, hit the + Add Entry button. To revisit previous entries select an entry from the side navigation bar. Happy Journaling!'
                     value={newContent}
                     onChange={(e) => {
                       setNewContent(e.target.value);
@@ -119,7 +122,7 @@ function App() {
                   }} />)}
 
               </div>
-              <button className='button' type='submit'>➕ Add Entry</button>
+              <button onClick={handleResetErrors} className='button' type='submit'>➕ Add Entry</button>
             </form>
           </div>
         </div>) : (
