@@ -24,7 +24,10 @@ function App() {
     e.preventDefault();
 
     if (newTitle === "" || newContent === "") {
-      setErrorMessage({ error: true, msg: "silly goose" });
+      setErrorMessage({
+        error: true,
+        msg: "Hey there! Make sure all form fields have been filled out before submitting."
+      });
       console.log(errorMessage);
     } else {
       let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date });
@@ -96,14 +99,12 @@ function App() {
               <h1 className='header'>👋 Hello, {user.displayName}.</h1>
               <h3 className='currentDate'>🗓 Todays date is {date}</h3>
             </div>
-            {errorMessage?.msg && (<div>{errorMessage.msg}</div>)}
             <form onSubmit={addEntry}>
               <div className='new-entry-container'>
                 <input
                   placeholder='Entry Title...'
                   value={newTitle}
                   onChange={(e) => { setNewTitle(e.target.value) }} />
-                {/*conditonal rendering for textarea placeholder text*/}
                 {entries.length === 0 ? (
                   <textarea
                     placeholder=
@@ -123,6 +124,7 @@ function App() {
 
               </div>
               <button onClick={handleResetErrors} className='button' type='submit'>➕ Add Entry</button>
+              {errorMessage?.msg && (<div className='error-container'>{errorMessage.msg}</div>)}
             </form>
           </div>
         </div>) : (
