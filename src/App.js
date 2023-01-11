@@ -1,5 +1,7 @@
 import Login from "./Login"
+import Signout from "./Signout";
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Link, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import { db, auth } from './firebase-config'
 import { collection, getDocs, addDoc, doc, deleteDoc } from 'firebase/firestore'
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -11,10 +13,11 @@ function App() {
   const [errorMessage, setErrorMessage] = useState({ error: false, msg: "" });
   const [user] = useAuthState(auth);
 
+  const entriesRef = user ? collection(db, user.uid) : <Login />;
+
+  // current date variable
   const current = new Date();
   const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
-
-  const entriesRef = user ? collection(db, user.uid) : <Login />;
 
   const handleResetErrors = () => {
     setErrorMessage(null);
@@ -22,18 +25,16 @@ function App() {
 
   const addEntry = async (e) => {
     e.preventDefault();
-
     if (newTitle === "" || newContent === "") {
       setErrorMessage({
         error: true,
-        msg: "Hey there! Make sure all form fields have been filled out before submitting."
+        msg: "🛑 Hey there! Make sure all form fields have been filled out before submitting."
       });
       console.log(errorMessage);
     } else {
       let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date });
       setEntries([...entries, { postTitle: newTitle, postContent: newContent, date: date, id: newEntryRef.id }]);
     }
-
     setNewTitle('');
     setNewContent('');
   }
@@ -45,32 +46,25 @@ function App() {
   }
 
   const deleteEntry = (id) => {
-
     // these two lines of code are for firebase firestore - deleting from our database
     const entryDoc = doc(db, user.uid, id);
     deleteDoc(entryDoc);
-
     // these lines of code are for updating the frontend without a huge window reload - which is ugly Kaitie, don't do it. 
     const updatedEntries = [...entries].filter((entry) => entry.id !== id);
     setEntries(updatedEntries);
-
   }
 
   useEffect(() => {
-
     // this function is to get our entry data, 
-    // and set what we see on the frontend to be our entry data in the firestore
     const getEntries = async () => {
       const data = await getDocs(entriesRef);
+      // and set what we see on the frontend to be our entry data in the firestore
       setEntries(data.docs.map((doc) => ({ ...doc.data(), id: doc.id, key: doc.id })));
     }
-
     getEntries();
+    // [user] goes in the dependancy array so that as each user logs in,
+    // they see their journal entries
   }, [user]);
-
-  const signOut = () => {
-    auth.signOut();
-  }
 
   return (
     <div className="App">
@@ -85,13 +79,12 @@ function App() {
                 return <div className='side-entry' key={entry.id}>
                   <h4 className='side-entry-title'>Title: {entry.postTitle}</h4>
                   <h4 className='side-entry-date'>Date of Entry: {entry.date}</h4>
-                  {/* <p>Entry: {entry.postContent}</p> */}
                   <button className='button' onClick={() => { deleteEntry(entry.id) }}>Delete Entry</button>
                 </div>
               })
             }
             <div className="side-header-bottom-content">
-              <button className="button sign-out-button" onClick={signOut}>Sign Out</button>
+              <Signout />
             </div>
           </div>
           <div className='new-entry-section-container'>
