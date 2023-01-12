@@ -1,5 +1,6 @@
 import Login from "./Login"
 import Signout from "./Signout";
+import EntryCard from "./EntryCard";
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import { db, auth } from './firebase-config'
@@ -20,17 +21,30 @@ function App() {
   const current = new Date();
   const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
 
+  // error/success message handling 
   const handleResetErrors = () => {
     setErrorMessage(null);
-    // setSuccessMessage(null);
   }
 
+  // useEffect functions 
   useEffect(() => {
     const delay = (ms) => {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
     delay(10000).then(setSuccessMessage).catch(successMessage);
   }, [entries]);
+
+  useEffect(() => {
+    // this function is to get our entry data, 
+    const getEntries = async () => {
+      const data = await getDocs(entriesRef);
+      // and set what we see on the frontend to be our entry data in the firestore
+      setEntries(data.docs.map((doc) => ({ ...doc.data(), id: doc.id, key: doc.id })));
+    }
+    getEntries();
+    // [user] goes in the dependancy array so that as each user logs in,
+    // they see their journal entries
+  }, [user]);
 
   const addEntry = async (e) => {
     e.preventDefault();
@@ -67,17 +81,6 @@ function App() {
     setEntries(updatedEntries);
   }
 
-  useEffect(() => {
-    // this function is to get our entry data, 
-    const getEntries = async () => {
-      const data = await getDocs(entriesRef);
-      // and set what we see on the frontend to be our entry data in the firestore
-      setEntries(data.docs.map((doc) => ({ ...doc.data(), id: doc.id, key: doc.id })));
-    }
-    getEntries();
-    // [user] goes in the dependancy array so that as each user logs in,
-    // they see their journal entries
-  }, [user]);
 
   return (
     <div className="App">
@@ -87,16 +90,10 @@ function App() {
             <div className="side-header-top-content">
               <h3 className="side-header">{user.displayName}'s Entries👇</h3>
             </div>
-            {
-              entries.map((entry) => {
-                return <div className='side-entry' key={entry.id}>
-                  <h4 className='side-entry-title'>Title: {entry.postTitle}</h4>
-                  <h4 className='side-entry-date'>Date of Entry: {entry.date}</h4>
-                  <button className='button' onClick={() => { deleteEntry(entry.id) }}>Delete Entry</button>
-                </div>
-              })
-            }
-            <div className="side-header-bottom-content">
+            {entries.map((entry) => {
+              return <EntryCard key={entry.id} entry={entry} deleteEntry={deleteEntry} />
+            })}
+            <div className="side-header-bottom-content" >
               <Signout />
             </div>
           </div>
