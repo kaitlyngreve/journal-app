@@ -11,6 +11,7 @@ function App() {
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
   const [errorMessage, setErrorMessage] = useState({ error: false, msg: "" });
+  const [successMessage, setSuccessMessage] = useState({ error: false, msg: "" })
   const [user] = useAuthState(auth);
 
   const entriesRef = user ? collection(db, user.uid) : <Login />;
@@ -21,7 +22,15 @@ function App() {
 
   const handleResetErrors = () => {
     setErrorMessage(null);
+    setSuccessMessage(null);
   }
+
+  useEffect(() => {
+    const delay = (ms) => {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    delay(10000).then(setSuccessMessage).catch(successMessage);
+  }, [entries]);
 
   const addEntry = async (e) => {
     e.preventDefault();
@@ -34,6 +43,10 @@ function App() {
     } else {
       let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date });
       setEntries([...entries, { postTitle: newTitle, postContent: newContent, date: date, id: newEntryRef.id }]);
+      setSuccessMessage({
+        error: true,
+        msg: "✅ Awesome! Your new entry was added to your journal."
+      });
     }
     setNewTitle('');
     setNewContent('');
@@ -118,6 +131,7 @@ function App() {
               </div>
               <button onClick={handleResetErrors} className='button' type='submit'>➕ Add Entry</button>
               {errorMessage?.msg && (<div className='error-container'>{errorMessage.msg}</div>)}
+              {successMessage?.msg && (<div className="success-container">{successMessage.msg}</div>)}
             </form>
           </div>
         </div>) : (
