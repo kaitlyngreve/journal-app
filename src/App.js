@@ -22,7 +22,7 @@ function App() {
 
   const handleResetErrors = () => {
     setErrorMessage(null);
-    setSuccessMessage(null);
+    // setSuccessMessage(null);
   }
 
   useEffect(() => {
