@@ -1,38 +1,28 @@
 import Login from "./Login"
 import Signout from "./Signout";
 import EntryCard from "./EntryCard";
+import NewEntry from "./NewEntry";
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import { db, auth } from './firebase-config'
-import { collection, getDocs, addDoc, doc, deleteDoc } from 'firebase/firestore'
+import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore'
 import { useAuthState } from "react-firebase-hooks/auth";
 
 function App() {
   const [entries, setEntries] = useState([]);
-  const [newTitle, setNewTitle] = useState('');
-  const [newContent, setNewContent] = useState('');
-  const [errorMessage, setErrorMessage] = useState({ error: false, msg: "" });
-  const [successMessage, setSuccessMessage] = useState({ error: false, msg: "" })
   const [user] = useAuthState(auth);
 
   const entriesRef = user ? collection(db, user.uid) : <Login />;
 
   // current date variable
-  const current = new Date();
-  const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
+  let current = new Date();
+  let currentHour = current.getHours() > 12 ? current.getHours() - 12 : current.getHours();
+  let am_pm = current.getHours >= 12 ? "PM" : "AM";
+  currentHour = currentHour < 10 ? "0" + currentHour : currentHour;
+  let currentMin = current.getMinutes() < 10 ? "0" + current.getMinutes() : current.getMinutes();
+  let currentTime = currentHour + ":" + currentMin + "" + am_pm;
 
-  // error/success message handling 
-  const handleResetErrors = () => {
-    setErrorMessage(null);
-  }
-
-  // useEffect functions 
-  useEffect(() => {
-    const delay = (ms) => {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
-    delay(10000).then(setSuccessMessage).catch(successMessage);
-  }, [entries]);
+  const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()} ${currentTime}`;
 
   useEffect(() => {
     // this function is to get our entry data, 
@@ -42,35 +32,8 @@ function App() {
       setEntries(data.docs.map((doc) => ({ ...doc.data(), id: doc.id, key: doc.id })));
     }
     getEntries();
-    // [user] goes in the dependancy array so that as each user logs in,
-    // they see their journal entries
   }, [user]);
 
-  const addEntry = async (e) => {
-    e.preventDefault();
-    if (newTitle === "" || newContent === "") {
-      setErrorMessage({
-        error: true,
-        msg: "🛑 Hey there! Make sure all form fields have been filled out before submitting."
-      });
-      console.log(errorMessage);
-    } else {
-      let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date });
-      setEntries([...entries, { postTitle: newTitle, postContent: newContent, date: date, id: newEntryRef.id }]);
-      setSuccessMessage({
-        error: true,
-        msg: "✅ Awesome! Your new entry was added to your journal."
-      });
-    }
-    setNewTitle('');
-    setNewContent('');
-  }
-
-  // Helper Function for auto-height Textarea
-  function text_area_auto_grow(element) {
-    element.style.height = "5px";
-    element.style.height = (element.scrollHeight) + "px";
-  }
 
   const deleteEntry = (id) => {
     // these two lines of code are for firebase firestore - deleting from our database
@@ -91,7 +54,10 @@ function App() {
               <h3 className="side-header">{user.displayName}'s Entries👇</h3>
             </div>
             {entries.map((entry) => {
-              return <EntryCard key={entry.id} entry={entry} deleteEntry={deleteEntry} />
+              return <EntryCard
+                key={entry.id}
+                entry={entry}
+                deleteEntry={deleteEntry} />
             })}
             <div className="side-header-bottom-content" >
               <Signout />
@@ -102,34 +68,12 @@ function App() {
               <h1 className='header'>👋 Hello, {user.displayName}.</h1>
               <h3 className='currentDate'>🗓 Todays date is {date}</h3>
             </div>
-            <form onSubmit={addEntry}>
-              <div className='new-entry-container'>
-                <input
-                  placeholder='Entry Title...'
-                  value={newTitle}
-                  onChange={(e) => { setNewTitle(e.target.value) }} />
-                {entries.length === 0 ? (
-                  <textarea
-                    placeholder=
-                    'Hello, welcome to Journal-It ✏️ To start your first journal entry, type here! Once you have finished your entry, hit the + Add Entry button. To revisit previous entries select an entry from the side navigation bar. Happy Journaling!'
-                    value={newContent}
-                    onChange={(e) => {
-                      setNewContent(e.target.value);
-                      text_area_auto_grow(e.target);
-                    }} />
-                ) : (<textarea
-                  placeholder='Entry... ✏️'
-                  value={newContent}
-                  onChange={(e) => {
-                    setNewContent(e.target.value);
-                    text_area_auto_grow(e.target);
-                  }} />)}
-
-              </div>
-              <button onClick={handleResetErrors} className='button' type='submit'>➕ Add Entry</button>
-              {errorMessage?.msg && (<div className='error-container'>{errorMessage.msg}</div>)}
-              {successMessage?.msg && (<div className="success-container">{successMessage.msg}</div>)}
-            </form>
+            <NewEntry
+              entries={entries}
+              setEntries={setEntries}
+              entriesRef={entriesRef}
+              date={date}
+            />
           </div>
         </div>) : (
         <Login />
