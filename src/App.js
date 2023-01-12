@@ -2,6 +2,8 @@ import Login from "./Login"
 import Signout from "./Signout";
 import EntryCard from "./EntryCard";
 import NewEntry from "./NewEntry";
+import Header from "./Header";
+
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import { db, auth } from './firebase-config'
@@ -14,21 +16,13 @@ function App() {
 
   const entriesRef = user ? collection(db, user.uid) : <Login />;
 
-  // current date variable
   let current = new Date();
-  let currentHour = current.getHours() > 12 ? current.getHours() - 12 : current.getHours();
-  let am_pm = current.getHours >= 12 ? "PM" : "AM";
-  currentHour = currentHour < 10 ? "0" + currentHour : currentHour;
-  let currentMin = current.getMinutes() < 10 ? "0" + current.getMinutes() : current.getMinutes();
-  let currentTime = currentHour + ":" + currentMin + "" + am_pm;
-
-  const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()} ${currentTime}`;
+  const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
 
   useEffect(() => {
-    // this function is to get our entry data, 
     const getEntries = async () => {
       const data = await getDocs(entriesRef);
-      // and set what we see on the frontend to be our entry data in the firestore
+
       setEntries(data.docs.map((doc) => ({ ...doc.data(), id: doc.id, key: doc.id })));
     }
     getEntries();
@@ -36,10 +30,9 @@ function App() {
 
 
   const deleteEntry = (id) => {
-    // these two lines of code are for firebase firestore - deleting from our database
     const entryDoc = doc(db, user.uid, id);
     deleteDoc(entryDoc);
-    // these lines of code are for updating the frontend without a huge window reload - which is ugly Kaitie, don't do it. 
+
     const updatedEntries = [...entries].filter((entry) => entry.id !== id);
     setEntries(updatedEntries);
   }
@@ -64,10 +57,7 @@ function App() {
             </div>
           </div>
           <div className='new-entry-section-container'>
-            <div className="header-container">
-              <h1 className='header'>👋 Hello, {user.displayName}.</h1>
-              <h3 className='currentDate'>🗓 Todays date is {date}</h3>
-            </div>
+            <Header user={user} date={date} />
             <NewEntry
               entries={entries}
               setEntries={setEntries}
