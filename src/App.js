@@ -6,6 +6,7 @@ import Entries from "./Entries";
 
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect, BrowserRouter } from "react-router-dom";
+
 import { db, auth } from './firebase-config'
 import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore'
 import { useAuthState } from "react-firebase-hooks/auth";

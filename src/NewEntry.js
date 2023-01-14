@@ -14,7 +14,8 @@ function NewEntry({ entries, setEntries, entriesRef, date }) {
                 error: true,
                 msg: "🛑 Hey there! Make sure all form fields have been filled out before submitting."
             });
-            console.log(errorMessage);
+            setNewTitle(newTitle.e.target.value);
+            setNewContent(newContent.e.target.value);
         } else {
             let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date });
             setEntries([...entries, { postTitle: newTitle, postContent: newContent, date: date, id: newEntryRef.id }]);
