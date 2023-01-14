@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { addDoc } from 'firebase/firestore'
 
-function NewEntry({ entries, setEntries, entriesRef, date }) {
+function NewEntry({ entries, setEntries, entriesRef, date, timeStamp }) {
     const [newTitle, setNewTitle] = useState('');
     const [newContent, setNewContent] = useState('');
     const [errorMessage, setErrorMessage] = useState({ error: false, msg: "" });
@@ -17,7 +17,7 @@ function NewEntry({ entries, setEntries, entriesRef, date }) {
             setNewTitle(newTitle.e.target.value);
             setNewContent(newContent.e.target.value);
         } else {
-            let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date });
+            let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date, timeStamp: timeStamp });
             setEntries([...entries, { postTitle: newTitle, postContent: newContent, date: date, id: newEntryRef.id }]);
             setSuccessMessage({
                 error: true,

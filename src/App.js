@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect, BrowserRouter } from "react-router-dom";
 
 import { db, auth } from './firebase-config'
-import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore'
+import { collection, getDocs, doc, deleteDoc, Timestamp } from 'firebase/firestore'
 import { useAuthState } from "react-firebase-hooks/auth";
 
 function App() {
@@ -19,6 +19,9 @@ function App() {
 
   let current = new Date();
   const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
+
+  const timeStamp = Date.now();
+  const sortedEntries = entries.slice().sort((a, b) => a.timeStamp - b.timeStamp);
 
   useEffect(() => {
     const getEntries = async () => {
@@ -38,7 +41,6 @@ function App() {
     setEntries(updatedEntries);
   }
 
-
   return (
     <div className="App">
       {user ? (
@@ -47,7 +49,7 @@ function App() {
             <div className="side-header-top-content">
               <h3 className="side-header">{user.displayName}'s Entries👇</h3>
             </div>
-            <Entries entries={entries} deleteEntry={deleteEntry} />
+            <Entries entries={sortedEntries} deleteEntry={deleteEntry} />
             <div className="side-header-bottom-content" >
               <Signout />
             </div>
@@ -55,6 +57,7 @@ function App() {
           <div className='new-entry-section-container'>
             <Header user={user} date={date} />
             <NewEntry
+              timeStamp={timeStamp}
               entries={entries}
               setEntries={setEntries}
               entriesRef={entriesRef}
