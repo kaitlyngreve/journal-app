@@ -32,7 +32,6 @@ function NewEntry({ entries, setEntries, entriesRef, date }) {
         setErrorMessage(null);
     }
 
-    // useEffect functions 
     useEffect(() => {
         const delay = (ms) => {
             return new Promise(resolve => setTimeout(resolve, ms));
@@ -41,7 +40,7 @@ function NewEntry({ entries, setEntries, entriesRef, date }) {
         delay(10000).then(setSuccessMessage).catch(successMessage);
     }, [entries]);
 
-    // Helper Function for auto-height Textarea
+
     function text_area_auto_grow(element) {
         element.style.height = "5px";
         element.style.height = (element.scrollHeight) + "px";
