@@ -11,9 +11,9 @@ function Login() {
     return (
         <div className="login-page-container">
             <div className="login-container">
-                <h1>🗒✏️ Welcome to Journal-It</h1>
+                <h1>✏️ Welcome to Journal-It</h1>
                 <h3>To login, sign in with Google</h3>
-                <button className="button sign-in-button" onClick={signInWithGoogle}>Sign In</button>
+                <button className="button sign-in-button button-light" onClick={signInWithGoogle}>Sign In</button>
             </div>
         </div>
     )

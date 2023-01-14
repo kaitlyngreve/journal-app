@@ -12,7 +12,7 @@ function NewEntry({ entries, setEntries, entriesRef, date }) {
         if (newTitle === "" || newContent === "") {
             setErrorMessage({
                 error: true,
-                msg: "🛑 Hey there! Make sure all form fields have been filled out before submitting."
+                msg: "Hey there! Make sure all form fields have been filled out before submitting."
             });
             setNewTitle(newTitle.e.target.value);
             setNewContent(newContent.e.target.value);
@@ -21,7 +21,7 @@ function NewEntry({ entries, setEntries, entriesRef, date }) {
             setEntries([...entries, { postTitle: newTitle, postContent: newContent, date: date, id: newEntryRef.id }]);
             setSuccessMessage({
                 error: true,
-                msg: "✅ Awesome! Your new entry was added to your journal."
+                msg: "Awesome! Your new entry was added to your journal."
             });
         }
         setNewTitle('');
