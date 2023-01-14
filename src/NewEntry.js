@@ -36,6 +36,7 @@ function NewEntry({ entries, setEntries, entriesRef, date }) {
         const delay = (ms) => {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
+
         delay(10000).then(setSuccessMessage).catch(successMessage);
     }, [entries]);
 

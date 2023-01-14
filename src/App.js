@@ -1,8 +1,8 @@
 import Login from "./Login"
 import Signout from "./Signout";
-import EntryCard from "./EntryCard";
 import NewEntry from "./NewEntry";
 import Header from "./Header";
+import Entries from "./Entries";
 
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect, BrowserRouter } from "react-router-dom";
@@ -46,12 +46,7 @@ function App() {
             <div className="side-header-top-content">
               <h3 className="side-header">{user.displayName}'s Entries👇</h3>
             </div>
-            {entries.map((entry) => {
-              return <EntryCard
-                key={entry.id}
-                entry={entry}
-                deleteEntry={deleteEntry} />
-            })}
+            <Entries entries={entries} deleteEntry={deleteEntry} />
             <div className="side-header-bottom-content" >
               <Signout />
             </div>
