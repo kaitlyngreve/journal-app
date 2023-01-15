@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { addDoc } from 'firebase/firestore'
 
-function NewEntry({ entries, setEntries, entriesRef, date, timeStamp }) {
+function NewEntry({ entries, setEntries, entriesRef, date, timestamp }) {
     const [newTitle, setNewTitle] = useState('');
     const [newContent, setNewContent] = useState('');
     const [errorMessage, setErrorMessage] = useState({ error: false, msg: "" });
@@ -17,8 +17,8 @@ function NewEntry({ entries, setEntries, entriesRef, date, timeStamp }) {
             setNewTitle(newTitle.e.target.value);
             setNewContent(newContent.e.target.value);
         } else {
-            let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, date: date, timeStamp: timeStamp });
-            setEntries([...entries, { postTitle: newTitle, postContent: newContent, date: date, id: newEntryRef.id }]);
+            let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, timestamp: timestamp });
+            setEntries([...entries, { postTitle: newTitle, postContent: newContent, timestamp: timestamp, id: newEntryRef.id }]);
             setSuccessMessage({
                 error: true,
                 msg: "Awesome! Your new entry was added to your journal."
