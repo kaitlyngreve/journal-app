@@ -5,7 +5,7 @@ function NewEntry({ entries, setEntries, entriesRef, date, timestamp }) {
     const [newTitle, setNewTitle] = useState('');
     const [newContent, setNewContent] = useState('');
     const [errorMessage, setErrorMessage] = useState({ error: false, msg: "" });
-    const [successMessage, setSuccessMessage] = useState({ error: false, msg: "" })
+    const [successMessage, setSuccessMessage] = useState({ active: false })
 
     const addEntry = async (e) => {
         e.preventDefault();
@@ -20,8 +20,7 @@ function NewEntry({ entries, setEntries, entriesRef, date, timestamp }) {
             let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, timestamp: timestamp });
             setEntries([...entries, { postTitle: newTitle, postContent: newContent, timestamp: timestamp, id: newEntryRef.id }]);
             setSuccessMessage({
-                error: true,
-                msg: "Awesome! Your new entry was added to your journal."
+                active: true
             });
         }
         setNewTitle('');
@@ -30,14 +29,17 @@ function NewEntry({ entries, setEntries, entriesRef, date, timestamp }) {
 
     const handleResetErrors = () => {
         setErrorMessage(null);
+        console.log('now');
+        setSuccessMessage({ active: true });
     }
 
     useEffect(() => {
-        const delay = (ms) => {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
 
-        delay(10000).then(setSuccessMessage).catch(successMessage);
+        // Remove success message after a time
+        setTimeout(function () {
+            setSuccessMessage({ active: false })
+        }, 5000);
+
     }, [entries]);
 
 
@@ -57,7 +59,7 @@ function NewEntry({ entries, setEntries, entriesRef, date, timestamp }) {
                     {entries.length === 0 ? (
                         <textarea
                             placeholder=
-                            'Hello, welcome to Journal-It ✏️ To start your first journal entry, type here! Once you have finished your entry, hit the + Add Entry button. To revisit previous entries select an entry from the side navigation bar. Happy Journaling!'
+                            'Hello, welcome to Notable ✏️ To start your first journal entry, type here! Once you have finished your entry, hit the + Add Entry button. To revisit previous entries select an entry from the side navigation bar. Happy Journaling!'
                             value={newContent}
                             onChange={(e) => {
                                 setNewContent(e.target.value);
@@ -74,7 +76,7 @@ function NewEntry({ entries, setEntries, entriesRef, date, timestamp }) {
                 </div>
                 <button onClick={handleResetErrors} className='button' type='submit'>➕ Add Entry</button>
                 {errorMessage?.msg && (<div className='error-container'>{errorMessage.msg}</div>)}
-                {successMessage?.msg && (<div className="success-container">{successMessage.msg}</div>)}
+                <div className={'success-container notification-container ' + (successMessage.active ? 'active' : 'notActive')}>Awesome! Your note has been added.</div>
             </form>
         </div>
     )
