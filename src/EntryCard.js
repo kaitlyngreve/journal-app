@@ -7,9 +7,11 @@ function EntryCard({ entry, deleteEntry }) {
     return (
         <div className='side-entry'>
             <Link to={`/${entry.id}`}>
-                <h4 className='side-entry-title'>Title: {entry.postTitle}</h4>
+                <div>
+                    <h4 className='side-entry-title'>Title: {entry.postTitle}</h4>
+                    <h4 className='side-entry-date'>Date of Entry: {entryTime.getMonth() + 1}/{entryTime.getDate()}/{entryTime.getFullYear()}</h4>
+                </div>
             </Link>
-            <h4 className='side-entry-date'>Date of Entry: {entryTime.getMonth() + 1}/{entryTime.getDate()}/{entryTime.getFullYear()}</h4>
             <button className='button' onClick={() => { deleteEntry(entry.id) }}>Delete Entry</button>
         </div>
     )

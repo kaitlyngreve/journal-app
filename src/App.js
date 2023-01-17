@@ -1,11 +1,9 @@
 import Login from "./Login";
-import EntryDetail from "./EntryDetail";
 import MainContent from "./MainContent";
-import Header from "./Header";
-import Entries from "./Entries";
+import DetailContent from "./DetailContent";
 
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Link, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import { db, auth } from './firebase-config'
 import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore'
@@ -47,8 +45,9 @@ function App() {
         <Routes>
           {user ? (
             <>
-              <Route path='/' element={<>
+              <Route path='/' element={
                 <MainContent
+                  timestamp={timestamp}
                   user={user}
                   entries={entries}
                   setEntries={setEntries}
@@ -57,13 +56,16 @@ function App() {
                   date={todayDate}
                   sortedEntries={sortedEntries}
                 />
-              </>}
+              }
               />
-              <Route path='/:id' element={<>
-                <Header user={user} date={todayDate} />
-                <EntryDetail entries={entries} />
-                <Entries entries={sortedEntries} deleteEntry={deleteEntry} user={user} />
-              </>
+              <Route path='/:id' element={
+                <DetailContent
+                  user={user}
+                  date={todayDate}
+                  entries={entries}
+                  sortedEntries={sortedEntries}
+                  deleteEntry={deleteEntry}
+                />
               } />
             </>
           )
