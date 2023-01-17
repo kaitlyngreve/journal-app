@@ -1,9 +1,10 @@
 import { auth } from "./firebase-config"
+import { useNavigate } from "react-router-dom";
 
 function Signout() {
 
     const signOut = () => {
-        auth.signOut();
+        auth.signOut()
     }
 
     return (

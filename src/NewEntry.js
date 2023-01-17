@@ -15,7 +15,7 @@ function NewEntry({ entries, setEntries, entriesRef, timestamp }) {
                 msg: "Hey there! Make sure all form fields have been filled out before submitting."
             });
             setNewTitle(newTitle.e.target.value);
-            setNewContent(newContent.e.target.value);
+            setNewContent(newContent);
         } else {
             console.log('elsely')
             let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, timestamp: timestamp });
@@ -48,7 +48,8 @@ function NewEntry({ entries, setEntries, entriesRef, timestamp }) {
     }
 
     return (
-        <div>
+
+        <div className='new-entry-section-container'>
             <form onSubmit={addEntry}>
                 <div className='new-entry-container'>
                     <input

@@ -1,11 +1,11 @@
-import Login from "./Login"
-import Signout from "./Signout";
+import Login from "./Login";
+import EntryDetail from "./EntryDetail";
 import NewEntry from "./NewEntry";
 import Header from "./Header";
 import Entries from "./Entries";
 
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch, Redirect, BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, Link, Switch, Redirect } from "react-router-dom";
 
 import { db, auth } from './firebase-config'
 import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore'
@@ -42,31 +42,38 @@ function App() {
   }
 
   return (
-    <div className="App">
-      {user ? (
-        <div className="whole-app-container">
-          <div className="side-entries-container">
-            <div className="side-header-top-content">
-              <h3 className="side-header">{user.displayName}'s Entries👇</h3>
-            </div>
-            <Entries entries={sortedEntries} deleteEntry={deleteEntry} />
-            <div className="side-header-bottom-content" >
-              <Signout />
-            </div>
-          </div>
-          <div className='new-entry-section-container'>
-            <Header user={user} date={todayDate} />
-            <NewEntry
-              timestamp={timestamp}
-              entries={entries}
-              setEntries={setEntries}
-              entriesRef={entriesRef}
-            />
-          </div>
-        </div>) : (
-        <Login />
-      )}
-    </div >
+    <Router>
+      <div className="App">
+        <Routes>
+          {user ? (
+            <>
+              <Route path='/' element={<>
+                <Header user={user} date={todayDate} />
+                <NewEntry
+                  timestamp={timestamp}
+                  entries={entries}
+                  setEntries={setEntries}
+                  entriesRef={entriesRef}
+                />
+                <Entries entries={sortedEntries} deleteEntry={deleteEntry} user={user} />
+              </>}
+              />
+              <Route path='/:id' element={<>
+                <Header user={user} date={todayDate} />
+                <EntryDetail entries={entries} />
+                <Entries entries={sortedEntries} deleteEntry={deleteEntry} user={user} />
+              </>
+              } />
+            </>
+          )
+            : (
+              <Route path='/' element={<Login />} />
+            )
+          }
+          <Route path='*' element={<Navigate to={'/'} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
