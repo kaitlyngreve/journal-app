@@ -1,6 +1,6 @@
 import Login from "./Login";
 import EntryDetail from "./EntryDetail";
-import NewEntry from "./NewEntry";
+import MainContent from "./MainContent";
 import Header from "./Header";
 import Entries from "./Entries";
 
@@ -48,14 +48,15 @@ function App() {
           {user ? (
             <>
               <Route path='/' element={<>
-                <Header user={user} date={todayDate} />
-                <NewEntry
-                  timestamp={timestamp}
+                <MainContent
+                  user={user}
                   entries={entries}
                   setEntries={setEntries}
                   entriesRef={entriesRef}
+                  deleteEntry={deleteEntry}
+                  date={todayDate}
+                  sortedEntries={sortedEntries}
                 />
-                <Entries entries={sortedEntries} deleteEntry={deleteEntry} user={user} />
               </>}
               />
               <Route path='/:id' element={<>

@@ -49,7 +49,7 @@ function NewEntry({ entries, setEntries, entriesRef, timestamp }) {
 
     return (
 
-        <div className='new-entry-section-container'>
+        <div>
             <form onSubmit={addEntry}>
                 <div className='new-entry-container'>
                     <input
