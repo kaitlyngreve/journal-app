@@ -186,6 +186,13 @@ input::placeholder {
   padding-bottom: 15px;
   padding-left: 25px;
   padding-right: 25px;
+  text-align: left;
+}
+
+.new-entry-button:after {
+  content: '➕';
+  padding-left: 150px;
+  position: absolute;
 }
 
 .new-entry-button:hover {
