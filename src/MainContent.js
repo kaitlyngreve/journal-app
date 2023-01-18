@@ -8,7 +8,7 @@ function MainContent({ entries, user, todayDate, timestamp, sortedEntries, entri
         <div className="whole-app-container">
             <Entries entries={sortedEntries} user={user} />
             <div className="new-entry-section-container">
-                <Header user={user} date={todayDate} />
+                <Header user={user} todayDate={todayDate} />
                 <NewEntry
                     timestamp={timestamp}
                     entries={entries}

@@ -20,7 +20,7 @@ function App() {
 
   let current = new Date(timestamp); // Get a Date object with our current timestamp
   const todayDate = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
-
+  console.log(todayDate)
 
   useEffect(() => {
     const getEntries = async () => {
@@ -49,7 +49,7 @@ function App() {
                   entries={entries}
                   setEntries={setEntries}
                   entriesRef={entriesRef}
-                  date={todayDate}
+                  todayDate={todayDate}
                   sortedEntries={sortedEntries}
                 />
               }
@@ -57,7 +57,7 @@ function App() {
               <Route path='/:id' element={
                 <DetailContent
                   user={user}
-                  date={todayDate}
+                  todayDate={todayDate}
                   entries={entries}
                   sortedEntries={sortedEntries}
                   handleDeleteEntry={handleDeleteEntry}

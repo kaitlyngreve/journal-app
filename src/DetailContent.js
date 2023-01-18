@@ -10,7 +10,7 @@ function DetailContent({ user, sortedEntries, entries, todayDate, handleDeleteEn
         <div className="whole-app-container">
             <Entries entries={sortedEntries} user={user} />
             <div className="new-entry-section-container">
-                <Header user={user} date={todayDate} />
+                <Header user={user} todayDate={todayDate} />
                 <EntryDetail entries={entries} entry={entry} handleDeleteEntry={handleDeleteEntry} user={user} setEntries={setEntries} />
             </div>
         </div>

@@ -176,12 +176,28 @@ input::placeholder {
   padding-right: 25px;
 }
 
+.new-entry-button {
+  border: none;
+  font-size: 16px;
+  background-color: white;
+  border-bottom: .5px solid #c6c6c6;
+  width: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.new-entry-button:hover {
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
 .side-header-bottom-content {
   margin-top: 25px;
   padding-left: 25px;
   padding-right: 25px;
 }
-
 
 .side-entries-container {
   width: max(25%, 400px);
