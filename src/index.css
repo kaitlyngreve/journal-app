@@ -208,6 +208,11 @@ input::placeholder {
   background-color: rgb(0, 0, 0, 0.1);
 }
 
+.link {
+  text-decoration: none;
+  color: #222222;
+}
+
 .side-entry-date,
 .side-entry-title {
   font-size: 16px;

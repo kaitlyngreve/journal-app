@@ -3,10 +3,10 @@ import MainContent from "./MainContent";
 import DetailContent from "./DetailContent";
 
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 
 import { db, auth } from './firebase-config'
-import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import { useAuthState } from "react-firebase-hooks/auth";
 
 function App() {
@@ -21,6 +21,7 @@ function App() {
   let current = new Date(timestamp); // Get a Date object with our current timestamp
   const todayDate = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
 
+
   useEffect(() => {
     const getEntries = async () => {
       const data = await getDocs(entriesRef);
@@ -30,11 +31,7 @@ function App() {
     getEntries();
   }, [user]);
 
-
-  const deleteEntry = (id) => {
-    const entryDoc = doc(db, user.uid, id);
-    deleteDoc(entryDoc);
-
+  const handleDeleteEntry = (id) => {
     const updatedEntries = [...entries].filter((entry) => entry.id !== id);
     setEntries(updatedEntries);
   }
@@ -52,7 +49,6 @@ function App() {
                   entries={entries}
                   setEntries={setEntries}
                   entriesRef={entriesRef}
-                  deleteEntry={deleteEntry}
                   date={todayDate}
                   sortedEntries={sortedEntries}
                 />
@@ -64,7 +60,8 @@ function App() {
                   date={todayDate}
                   entries={entries}
                   sortedEntries={sortedEntries}
-                  deleteEntry={deleteEntry}
+                  handleDeleteEntry={handleDeleteEntry}
+                  setEntries={setEntries}
                 />
               } />
             </>
