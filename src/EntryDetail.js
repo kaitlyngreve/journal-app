@@ -25,18 +25,18 @@ function EntryDetail({ entries, entry, handleDeleteEntry, user, setEntries }) {
 
     const updateEntry = () => {
         const updatedEntry = doc(db, user.uid, id)
-        const newTitle = { postTitle: 'wasup' }
+        const newTitle = { postTitle: 'starting of update' }
         updateDoc(updatedEntry, newTitle);
 
         setUpdateTitle(newTitle);
-        setEntries([...entries], { postTitle: newTitle })
     }
 
     return (
         <div>
-            <h1>{entryDetails[0].postTitle}</h1>
-            <button onClick={deleteEntry} className='button'>Delete Note</button>
-            <button onClick={updateEntry}>update</button>
+            <h4>{entryDetails[0].postTitle}</h4>
+            <p>{entryDetails[0].postContent}</p>
+            <button onClick={deleteEntry} className='button delete-button'>Delete Note</button>
+            <button onClick={updateEntry} className='button'>Update Note</button>
         </div>
     )
 }

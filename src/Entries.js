@@ -14,7 +14,7 @@ function Entries({ entries, user }) {
         <div className="side-entries-container">
             <div className="side-header-top-content">
                 <h3 className="side-header">{user.displayName}'s Notes👇</h3>
-                <button className="new-entry-button" onClick={toNewEntry} >New Note</button>
+                <button className="new-entry-button" onClick={toNewEntry}>Start New Note</button>
             </div>
             <div>
                 {entries.map((entry) => {
