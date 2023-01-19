@@ -35,8 +35,8 @@ function App() {
   }, [user]);
 
   const handleDeleteEntry = (id) => {
-    const updatedEntries = [...entries].filter((entry) => entry.id !== id);
-    setEntries(updatedEntries);
+    const remainingEntries = [...entries].filter((entry) => entry.id !== id);
+    setEntries(remainingEntries);
   }
 
   return (
