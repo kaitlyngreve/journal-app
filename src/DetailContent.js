@@ -2,7 +2,7 @@ import Header from "./Header";
 import Entries from "./Entries";
 import EntryDetail from "./EntryDetail"
 
-function DetailContent({ user, sortedEntries, entries, todayDate, handleDeleteEntry, setEntries }) {
+function DetailContent({ user, entriesRef, sortedEntries, entries, todayDate, timestamp, handleDeleteEntry, setEntries }) {
 
     const entry = entries.map((entry) => entry);
 
@@ -11,7 +11,7 @@ function DetailContent({ user, sortedEntries, entries, todayDate, handleDeleteEn
             <Entries entries={sortedEntries} user={user} />
             <div className="new-entry-section-container">
                 <Header user={user} todayDate={todayDate} />
-                <EntryDetail entries={entries} entry={entry} handleDeleteEntry={handleDeleteEntry} user={user} setEntries={setEntries} />
+                <EntryDetail timestamp={timestamp} entriesRef={entriesRef} entries={entries} entry={entry} handleDeleteEntry={handleDeleteEntry} user={user} setEntries={setEntries} />
             </div>
         </div>
     )

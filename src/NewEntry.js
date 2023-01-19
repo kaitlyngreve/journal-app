@@ -17,7 +17,6 @@ function NewEntry({ entries, setEntries, entriesRef, timestamp }) {
             setNewTitle(newTitle.e.target.value);
             setNewContent(newContent);
         } else {
-            console.log('elsely')
             let newEntryRef = await addDoc(entriesRef, { postTitle: newTitle, postContent: newContent, timestamp: timestamp });
             setEntries([...entries, { postTitle: newTitle, postContent: newContent, timestamp: timestamp, id: newEntryRef.id }]);
             setSuccessMessage({

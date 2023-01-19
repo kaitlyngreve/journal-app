@@ -10,9 +10,11 @@ import { collection, getDocs } from 'firebase/firestore'
 import { useAuthState } from "react-firebase-hooks/auth";
 
 function App() {
+  // state and setter state for the note entries
   const [entries, setEntries] = useState([]);
   const [user] = useAuthState(auth);
 
+  // reference to the entries in our firestore 
   const entriesRef = user ? collection(db, user.uid) : <Login />;
 
   const timestamp = Date.now(); // Unix timestamp in milliseconds
@@ -20,7 +22,6 @@ function App() {
 
   let current = new Date(timestamp); // Get a Date object with our current timestamp
   const todayDate = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
-  console.log(todayDate)
 
   useEffect(() => {
     const getEntries = async () => {
@@ -29,6 +30,8 @@ function App() {
       setEntries(data.docs.map((doc) => ({ ...doc.data(), id: doc.id, key: doc.id })));
     }
     getEntries();
+    // with user in the dependancy array, the entries change with each user logged in - 
+    // so they will see their entries
   }, [user]);
 
   const handleDeleteEntry = (id) => {
@@ -59,9 +62,11 @@ function App() {
                   user={user}
                   todayDate={todayDate}
                   entries={entries}
+                  entriesRef={entriesRef}
                   sortedEntries={sortedEntries}
                   handleDeleteEntry={handleDeleteEntry}
                   setEntries={setEntries}
+                  timestamp={timestamp}
                 />
               } />
             </>
