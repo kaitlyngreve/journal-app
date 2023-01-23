@@ -4,12 +4,9 @@ import { useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { db } from './firebase-config';
 import { doc, deleteDoc } from 'firebase/firestore';
-import { updateDoc } from 'firebase/firestore';
 
-function EntryDetail({ entries, entry, handleDeleteEntry, user, setEntries }) {
+function EntryDetail({ entries, entry, handleDeleteEntry, handleUpdateEntry, user, setEntries, entriesRef, timestamp }) {
     const [isBeingEdited, setIsBeingEdited] = useState(false);
-
-    const [updateTitle, setUpdateTitle] = useState(entry.postTitle);
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -31,14 +28,6 @@ function EntryDetail({ entries, entry, handleDeleteEntry, user, setEntries }) {
         setEntries(remainingEntries);
     }
 
-    const updateEntry = () => {
-        const updatedEntry = doc(db, user.uid, id)
-        const newTitle = { postTitle: 'starting of update' }
-        updateDoc(updatedEntry, newTitle);
-
-        setUpdateTitle(newTitle);
-    }
-
     return (
         <div>
             {!isBeingEdited ? (
@@ -49,7 +38,7 @@ function EntryDetail({ entries, entry, handleDeleteEntry, user, setEntries }) {
                     <button onClick={handleIsBeingEdited} className='button'>Update Entry</button>
                 </>)
                 :
-                (<UpdateEntry handleIsBeingEdited={handleIsBeingEdited} entry={entryDetails[0]} />)}
+                (<UpdateEntry timestamp={timestamp} entriesRef={entriesRef} setEntries={setEntries} handleUpdateEntry={handleUpdateEntry} handleIsBeingEdited={handleIsBeingEdited} entry={entryDetails[0]} user={user} id={id} />)}
         </div>
     )
 }

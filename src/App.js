@@ -39,6 +39,13 @@ function App() {
     setEntries(remainingEntries);
   }
 
+  const handleUpdateEntry = (data) => {
+    const updatedEntries = entries.filter((entry) => entry.id !== data.id)
+    updatedEntries.push(data)
+    console.log(data.id)
+    setEntries(updatedEntries);
+  }
+
   return (
     <Router>
       <div className="App">
@@ -67,6 +74,7 @@ function App() {
                   handleDeleteEntry={handleDeleteEntry}
                   setEntries={setEntries}
                   timestamp={timestamp}
+                  handleUpdateEntry={handleUpdateEntry}
                 />
               } />
             </>
