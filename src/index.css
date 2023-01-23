@@ -90,6 +90,10 @@ input::placeholder {
   font-size: 18px;
 }
 
+#entry-content-textarea {
+  white-space: pre-line;
+}
+
 .error-container {
   margin-top: 15px;
   padding: 25px;
