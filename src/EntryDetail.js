@@ -9,6 +9,8 @@ function EntryDetail({ entries, entry, handleDeleteEntry, handleUpdateEntry, use
     const [isBeingEdited, setIsBeingEdited] = useState(false);
     const [successMessage, setSuccessMessage] = useState({ active: false });
 
+    let entryContentTextarea = document.getElementById('entry-content-textarea');
+
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -17,6 +19,7 @@ function EntryDetail({ entries, entry, handleDeleteEntry, handleUpdateEntry, use
     const handleIsBeingEdited = () => {
         setIsBeingEdited(isBeingEdited => !isBeingEdited)
     }
+
 
     const deleteEntry = () => {
         const entryDoc = doc(db, user.uid, id);
@@ -27,6 +30,11 @@ function EntryDetail({ entries, entry, handleDeleteEntry, handleUpdateEntry, use
 
         const remainingEntries = [...entries].filter((entry) => entry.id !== id);
         setEntries(remainingEntries);
+    }
+
+    function text_area_auto_grow(element) {
+        element.style.height = "5px";
+        element.style.height = (element.scrollHeight) + "px";
     }
 
     useEffect(() => {
@@ -59,6 +67,8 @@ function EntryDetail({ entries, entry, handleDeleteEntry, handleUpdateEntry, use
                     user={user}
                     id={id}
                     setSuccessMessage={setSuccessMessage}
+                    text_area_auto_grow={text_area_auto_grow}
+                    entryContentTextarea={entryContentTextarea}
                 />)}
         </div>
     )
