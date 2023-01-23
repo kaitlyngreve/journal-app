@@ -34,7 +34,7 @@ function EntryDetail({ entries, entry, handleDeleteEntry, handleUpdateEntry, use
                 <>
                     <h4>{entryDetails[0].postTitle}</h4>
                     <p>{entryDetails[0].postContent}</p>
-                    <button onClick={deleteEntry} className='button delete-button'>Delete Note</button>
+                    <button onClick={deleteEntry} className='button form-button'>Delete Note</button>
                     <button onClick={handleIsBeingEdited} className='button'>Update Entry</button>
                 </>)
                 :
