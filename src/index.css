@@ -247,3 +247,9 @@ input::placeholder {
   line-height: 1.5em;
   margin: 0;
 }
+
+.entry-detail-title,
+.entry-detail-content {
+  font-size: 18px;
+  padding: 3px;
+}

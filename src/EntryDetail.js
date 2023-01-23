@@ -31,12 +31,12 @@ function EntryDetail({ entries, entry, handleDeleteEntry, handleUpdateEntry, use
     return (
         <div>
             {!isBeingEdited ? (
-                <>
-                    <h4>{entryDetails[0].postTitle}</h4>
-                    <p>{entryDetails[0].postContent}</p>
+                <div>
+                    <h4 className='entry-detail-title'>{entryDetails[0].postTitle}</h4>
+                    <p className='entry-detail-content'>{entryDetails[0].postContent}</p>
                     <button onClick={deleteEntry} className='button form-button'>Delete Note</button>
                     <button onClick={handleIsBeingEdited} className='button'>Update Entry</button>
-                </>)
+                </div>)
                 :
                 (<UpdateEntry timestamp={timestamp} entriesRef={entriesRef} setEntries={setEntries} handleUpdateEntry={handleUpdateEntry} handleIsBeingEdited={handleIsBeingEdited} entry={entryDetails[0]} user={user} id={id} />)}
         </div>
