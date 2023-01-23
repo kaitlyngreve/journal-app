@@ -3,13 +3,10 @@ import { db } from './firebase-config';
 import { doc } from 'firebase/firestore';
 import { updateDoc } from 'firebase/firestore';
 
-function UpdateEntry({ handleIsBeingEdited, entriesRef, timestamp, entry, user, id, handleUpdateEntry, setSuccessMessage, text_area_auto_grow, entryContentTextarea }) {
+function UpdateEntry({ handleIsBeingEdited, entriesRef, timestamp, entry, user, id, handleUpdateEntry, setSuccessMessage }) {
     const [updateTitle, setUpdateTitle] = useState(entry.postTitle);
     const [updateContent, setUpdateContent] = useState(entry.postContent);
-
-    if (entryContentTextarea) {
-        text_area_auto_grow(entryContentTextarea);
-    }
+    let entryContentTextarea = document.getElementById('entry-content-textarea');
 
     const submitUpdateEntry = (e) => {
         e.preventDefault();
@@ -25,6 +22,15 @@ function UpdateEntry({ handleIsBeingEdited, entriesRef, timestamp, entry, user, 
         setSuccessMessage({
             active: true
         })
+    }
+
+    if (entryContentTextarea) {
+        text_area_auto_grow(entryContentTextarea)
+    }
+
+    function text_area_auto_grow(element) {
+        element.style.height = "5px";
+        element.style.height = (element.scrollHeight) + "px";
     }
 
     return (

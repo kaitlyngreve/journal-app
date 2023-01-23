@@ -253,3 +253,7 @@ input::placeholder {
   font-size: 18px;
   padding: 3px;
 }
+
+.entry-detail-content {
+  white-space: pre-line;
+}
