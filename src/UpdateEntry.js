@@ -3,19 +3,24 @@ import { db } from './firebase-config';
 import { doc } from 'firebase/firestore';
 import { updateDoc } from 'firebase/firestore';
 
-function UpdateEntry({ handleIsBeingEdited, entriesRef, timestamp, entry, user, id, handleUpdateEntry }) {
+function UpdateEntry({ handleIsBeingEdited, entriesRef, timestamp, entry, user, id, handleUpdateEntry, setSuccessMessage }) {
     const [updateTitle, setUpdateTitle] = useState(entry.postTitle);
     const [updateContent, setUpdateContent] = useState(entry.postContent);
 
-    const updateEntry = (e) => {
+    const submitUpdateEntry = (e) => {
         e.preventDefault();
 
         const updatedEntry = doc(db, user.uid, id)
         const newEntry = (entriesRef, { postTitle: updateTitle, postContent: updateContent, timestamp: timestamp, id: updatedEntry.id })
         updateDoc(updatedEntry, newEntry);
 
+
         handleUpdateEntry(newEntry);
         handleIsBeingEdited();
+
+        setSuccessMessage({
+            active: true
+        })
     }
 
     function text_area_auto_grow(element) {
@@ -25,7 +30,7 @@ function UpdateEntry({ handleIsBeingEdited, entriesRef, timestamp, entry, user, 
 
     return (
         <div>
-            <form onSubmit={updateEntry}>
+            <form onSubmit={submitUpdateEntry}>
                 <div className='new-entry-container'>
                     <input
                         value={updateTitle}
@@ -40,7 +45,7 @@ function UpdateEntry({ handleIsBeingEdited, entriesRef, timestamp, entry, user, 
                     />
                 </div>
                 <button type='submit' className='button form-button'>Submit Update</button>
-                <button onClick={handleIsBeingEdited} className="button">Go Back</button>
+                <button onClick={handleIsBeingEdited} className="button">Exit Update</button>
             </form>
         </div>
     )
