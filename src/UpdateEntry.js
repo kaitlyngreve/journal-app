@@ -48,10 +48,13 @@ function UpdateEntry({ handleIsBeingEdited, entriesRef, timestamp, entry, user, 
             <form onSubmit={submitUpdateEntry}>
                 <div className='new-entry-container'>
                     <input
+                        className='update-input'
+                        placeholder='Entry Title...'
                         value={updateTitle}
                         onChange={(e) => setUpdateTitle(e.target.value)}
                     />
                     <textarea
+                        placeholder='Entry... ✏️'
                         id="entry-content-textarea"
                         value={updateContent}
                         onChange={(e) => {
