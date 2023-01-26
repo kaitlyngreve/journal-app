@@ -42,7 +42,6 @@ function App() {
   const handleUpdateEntry = (data) => {
     const updatedEntries = entries.filter((entry) => entry.id !== data.id)
     updatedEntries.push(data)
-    console.log(data.id)
     setEntries(updatedEntries);
   }
 

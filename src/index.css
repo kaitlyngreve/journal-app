@@ -90,10 +90,8 @@ input::placeholder {
   font-size: 18px;
 }
 
-.update-input {
-  border-bottom: 1px solid #f2f2f2;
-  padding-bottom: .5em;
-  font-weight: bold;
+#entry-content-textarea {
+  white-space: pre-line;
 }
 
 .error-container {
