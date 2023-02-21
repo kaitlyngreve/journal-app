@@ -30,7 +30,6 @@ function EntryDetail({ entries, entry, handleDeleteEntry, handleUpdateEntry, use
     }
 
     useEffect(() => {
-
         // Remove success message after a time
         setTimeout(function () {
             setSuccessMessage({ active: false })

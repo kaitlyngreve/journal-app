@@ -18,12 +18,9 @@ function UpdateEntry({ handleIsBeingEdited, entriesRef, timestamp, entry, user, 
                 msg: 'Hey there! Make sure all form fields have been filled out before submitting.'
             })
         } else {
-
             const updatedEntry = doc(db, user.uid, id)
             const newEntry = (entriesRef, { postTitle: updateTitle, postContent: updateContent, timestamp: timestamp, id: updatedEntry.id })
             updateDoc(updatedEntry, newEntry);
-
-
             handleUpdateEntry(newEntry);
             handleIsBeingEdited();
 

@@ -75,7 +75,11 @@ function NewEntry({ entries, setEntries, entriesRef, timestamp }) {
                 </div>
                 <button onClick={handleResetErrors} className='button' type='submit'>➕ Add Note</button>
                 {errorMessage?.msg && (<div className='error-container'>{errorMessage.msg}</div>)}
-                <div className={'success-container notification-container ' + (successMessage.active ? 'active' : 'notActive')}>Awesome! Your note has been added.</div>
+
+                <div className={'success-container notification-container ' + (successMessage.active ? 'active' : 'notActive')}>
+                    Awesome! Your note has been added.
+                </div>
+
             </form>
         </div>
     )
